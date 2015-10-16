@@ -1,5 +1,7 @@
 package com.github.sakaizawa.ParseTree;
 
+import java.util.List;
+
 /**
  * Created by sakaisawayuya on 2015/10/15.
  */
@@ -10,13 +12,24 @@ public interface ParseTree {
      */
     public void traverse();
 
-    public boolean search(String word);
+    /**
+     * i 番目の Node を返す
+     * @param i インデックス
+     * @return i 番目の Node
+     */
+    public Node getNode(int i);
 
-    public void getRightChild();
+    /**
+     * 現在の Node の子ノードを返す
+     * @return 子ノード
+     */
+    public List<Node> getChildren();
 
-    public void getLeftChild();
-
-    public void getChildren();
+    /**
+     * 現在の Node の親ノードを返す
+     * @return 親ノード
+     */
+    public Node getParent();
 
     /**
      * リーフノードか否か
@@ -24,7 +37,9 @@ public interface ParseTree {
      */
     public boolean isLeaf();
 
-    public String searchPos(String word);
-
-    public String searchPhrase(String word);
+    /**
+     * node の総数を返す
+     * @return node の総数
+     */
+    public int totalNode();
 }
