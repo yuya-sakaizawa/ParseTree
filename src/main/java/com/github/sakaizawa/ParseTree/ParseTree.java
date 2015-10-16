@@ -8,6 +8,11 @@ import java.util.List;
 public interface ParseTree {
 
     /**
+     * parseTree の初期化
+     */
+    public void initialize();
+
+    /**
      * Tree の走査
      */
     public void traverse();
