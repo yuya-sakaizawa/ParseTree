@@ -13,6 +13,12 @@ public interface ParseTree {
     public void traverse();
 
     /**
+     * 現在の node を返す
+     * @return 現在のノード
+     */
+    public Node getCurrentNode();
+
+    /**
      * i 番目の Node を返す
      * @param i インデックス
      * @return i 番目の Node
