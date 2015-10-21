@@ -44,7 +44,12 @@ public class ParseTreeTest {
 
     @org.junit.Test
     public void testIsLeaf() throws Exception {
+        ParseTree parseTree = new ParseTreeImpl();
+        assertEquals(false, parseTree.isLeaf());
 
+        // メソッドに工夫が必要？
+        parseTree.add(new Node("I", null));
+        assertEquals(true, parseTree.isLeaf());
     }
 
     @org.junit.Test
@@ -54,5 +59,8 @@ public class ParseTreeTest {
 
         parseTree.add(new Node("I", null));
         assertEquals(2, parseTree.totalNode());
+
+        parseTree.add(new Node("like", null));
+        assertEquals(3, parseTree.totalNode());
     }
 }
