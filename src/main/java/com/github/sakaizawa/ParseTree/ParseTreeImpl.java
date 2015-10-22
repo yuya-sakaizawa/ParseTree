@@ -6,65 +6,39 @@ import java.util.List;
  * Created by sakaisawayuya on 2015/10/20.
  */
 public class ParseTreeImpl
-    implements ParseTree{
+    extends Node
+    implements ParseTree {
 
-    /**
-     * parseTree の初期化
-     */
-    public void initialize() {
+    public ParseTreeImpl(String word, String phrase) {
+        super(word, phrase);
+    }
+
+    // コンストラクタで必要？？
+    public ParseTreeImpl(String sFormula) {
+        // TODO
     }
 
     /**
      * Tree の走査
      */
-    public void traverse() {
-
-    }
+    public void traverse(){}
 
     /**
-     * 現在の node に新しい node を加える
-     *
-     * @param node 加える node
+     * 葉ノードのリストを返す
      */
-    public void add(Node node) {
-
-    }
-
-    /**
-     * 現在の node を返す
-     *
-     * @return 現在のノード
-     */
-    public Node getCurrentNode() {
+    public List<ParseTree> getLeaves() {
         return null;
     }
 
     /**
-     * i 番目の Node を返す
-     *
-     * @param i インデックス
-     * @return i 番目の Node
+     * 新しい node を加える
+     * @param word 単語
+     * @param phrase 句
      */
-    public Node getNode(int i) {
-        return null;
-    }
-
-    /**
-     * 現在の Node の子ノードを返す
-     *
-     * @return 子ノード
-     */
-    public List<Node> getChildren() {
-        return null;
-    }
-
-    /**
-     * 現在の Node の親ノードを返す
-     *
-     * @return 親ノード
-     */
-    public Node getParent() {
-        return null;
+    public void add(String word, String phrase) {
+        Node child = new ParseTreeImpl(word, phrase);
+        setChild(child);
+        child.setParent(this);
     }
 
     /**
@@ -73,7 +47,15 @@ public class ParseTreeImpl
      * @return リーフノード → True，それ以外 → False
      */
     public boolean isLeaf() {
-        return false;
+        return  children.size() == 0;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean isRoot() {
+        return parent == null;
     }
 
     /**
@@ -84,4 +66,14 @@ public class ParseTreeImpl
     public int totalNode() {
         return 0;
     }
+
+    /**
+     * その木の高さを返す
+     * @return 木の高さ
+     */
+    public int getHeight() {return 0;}
+
+    //public String getWord() {
+    //    return word;
+    //}
 }
