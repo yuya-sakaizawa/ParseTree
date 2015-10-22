@@ -7,19 +7,10 @@ import java.util.List;
  */
 public interface ParseTree {
 
-    // この実装だと Tree としての記述はなくなっているが問題あり？
-
     /**
      * Tree の走査
      */
     public void traverse();
-
-    /**
-     * 新しい node を加える
-     * @param word 単語
-     * @param phrase 句
-     */
-    public void add(String word, String phrase);
 
     /**
      * リーフノードか否か
@@ -39,17 +30,41 @@ public interface ParseTree {
      */
     public int getHeight();
 
+    /**
+     * i 番目の子ノードを返す
+     * @param i インデックス
+     * @return i 番目の子ノード
+     */
+    public ParseTree getChild(int i);
 
-    // node インターフェースが必要？　ここにいらない？
-    public String getWord();
+    /**
+     * label を返す
+     * @return label
+     */
+    public String getLabel();
 
-    public String getPhrase();
+    /**
+     * 親を返す
+     * @return 親
+     */
+    public ParseTree getParent();
 
-    public Node getParent();
+    /**
+     * 子ノードのリストを返す
+     * @return 子ノードのリスト
+     */
+    public List<ParseTree> getChildren();
 
-    public List<Node> getChildren();
+    /**
+     * 親ノードをセットする
+     * @param parentNode 親ノード
+     */
+    public void setParent(ParseTree parentNode);
 
-    public void setChild(Node node);
+    /**
+     * 子ノードを加える（右に）
+     * @param child 子ノード
+     */
+    public void setChild(ParseTree child);
 
-    public void setParent(Node node);
 }

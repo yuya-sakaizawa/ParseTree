@@ -5,10 +5,9 @@ package com.github.sakaizawa.ParseTree;
  */
 public class Demo {
     public static void main(String[] args) {
-        ParseTree parseTree = new ParseTreeImpl("test", "test");
-        //ParseTreeImpl parseTree = new ParseTreeImpl("", "");
-        parseTree.add("have", "");
-        System.out.println(parseTree.getWord());
+        ParseTree parseTree = new ParseTreeImpl("test");
+        parseTree.setChild(new ParseTreeImpl("POS"));
+        System.out.println(parseTree.getLabel());
         System.out.println();
     }
 }

@@ -1,44 +1,29 @@
 package com.github.sakaizawa.ParseTree;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by sakaisawayuya on 2015/10/20.
  */
 public class ParseTreeImpl
-    extends Node
     implements ParseTree {
 
-    public ParseTreeImpl(String word, String phrase) {
-        super(word, phrase);
-    }
+    private String label;
+    private ParseTree parent;
+    private List<ParseTree> children;
 
-    // コンストラクタで必要？？
-    public ParseTreeImpl(String sFormula) {
-        // TODO
+    public ParseTreeImpl (String label) {
+        this.label = label;
+        parent = null;
+        children = new ArrayList<ParseTree>();
     }
 
     /**
      * Tree の走査
      */
-    public void traverse(){}
+    public void traverse() {
 
-    /**
-     * 葉ノードのリストを返す
-     */
-    public List<ParseTree> getLeaves() {
-        return null;
-    }
-
-    /**
-     * 新しい node を加える
-     * @param word 単語
-     * @param phrase 句
-     */
-    public void add(String word, String phrase) {
-        Node child = new ParseTreeImpl(word, phrase);
-        setChild(child);
-        child.setParent(this);
     }
 
     /**
@@ -47,15 +32,7 @@ public class ParseTreeImpl
      * @return リーフノード → True，それ以外 → False
      */
     public boolean isLeaf() {
-        return  children.size() == 0;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public boolean isRoot() {
-        return parent == null;
+        return children.size() == 0;
     }
 
     /**
@@ -69,11 +46,66 @@ public class ParseTreeImpl
 
     /**
      * その木の高さを返す
+     *
      * @return 木の高さ
      */
-    public int getHeight() {return 0;}
+    public int getHeight() {
+        return 0;
+    }
 
-    //public String getWord() {
-    //    return word;
-    //}
+    /**
+     * i 番目の子ノードを返す
+     *
+     * @param i インデックス
+     * @return i 番目の子ノード
+     */
+    public ParseTree getChild(int i) {
+        return children.get(i);
+    }
+
+    /**
+     * label を返す
+     *
+     * @return label
+     */
+    public String getLabel() {
+        return label;
+    }
+
+    /**
+     * 親を返す
+     *
+     * @return 親
+     */
+    public ParseTree getParent() {
+        return parent;
+    }
+
+    /**
+     * 子ノードのリストを返す
+     *
+     * @return 子ノードのリスト
+     */
+    public List<ParseTree> getChildren() {
+        return children;
+    }
+
+    /**
+     * 親ノードをセットする
+     *
+     * @param parentNode 親ノード
+     */
+    public void setParent(ParseTree parentNode) {
+        parent = parentNode;
+    }
+
+    /**
+     * 子ノードを加える（右に）
+     *
+     * @param child 子ノード
+     */
+    public void setChild(ParseTree child) {
+        children.add(child);
+    }
+
 }
