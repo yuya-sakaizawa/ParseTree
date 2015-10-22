@@ -7,6 +7,9 @@ import java.util.List;
  */
 public interface ParseTree {
 
+
+    // 深さ優先？幅優先？ enum で管理するべき？
+    // イテレータを用意する？
     /**
      * Tree の走査
      */
