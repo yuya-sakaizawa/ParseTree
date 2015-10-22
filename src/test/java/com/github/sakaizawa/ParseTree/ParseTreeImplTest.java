@@ -14,12 +14,14 @@ public class ParseTreeImplTest {
 
     }
 
+    // ただ追加して確認しているだけだけどこれでいいのか？
+    // ParseTree のコンストラクタでchildren の初期化も済ませているのでこの設計の場合 null の場合は考えなくてよい？
     @Test
     public void testIsLeaf() throws Exception {
         ParseTree parseTreeNull = new ParseTreeImpl(null);
         assertTrue(parseTreeNull.isLeaf());
 
-        ParseTree parseTree = new ParseTreeImpl("test");
+        ParseTree parseTree = new ParseTreeImpl("ROOT");
         assertTrue(parseTree.isLeaf());
         parseTree.setChild(new ParseTreeImpl("POS1-1"));
         parseTree.setChild(new ParseTreeImpl("POS1-2"));
@@ -36,12 +38,13 @@ public class ParseTreeImplTest {
         assertTrue(parseTree.getChild(0).getChild(1).isLeaf());
     }
 
+    // 上と同じ疑問に加えて、間違えている場合も考えるべき？ totalNode = 2 の時に False(3 == totalNode など)
     @Test
     public void testTotalNode() throws Exception {
         ParseTree parseTreeNull = new ParseTreeImpl(null);
         assertEquals(1, parseTreeNull);
 
-        ParseTree parseTree = new ParseTreeImpl("test");
+        ParseTree parseTree = new ParseTreeImpl("ROOT");
         assertEquals(1, parseTree.totalNode());
         parseTree.setChild(new ParseTreeImpl("POS1-1"));
         assertEquals(2, parseTree.totalNode());
