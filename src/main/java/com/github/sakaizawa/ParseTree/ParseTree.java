@@ -1,5 +1,6 @@
 package com.github.sakaizawa.ParseTree;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -8,12 +9,12 @@ import java.util.List;
 public interface ParseTree {
 
 
-    // 深さ優先？幅優先？ enum で管理するべき？
-    // イテレータを用意する？
     /**
-     * Tree の走査
+     * 現在の node からの木の走査
+     * @param traversalStrategy 深さ優先探索か幅優先探索か
+     * @return イテレータ
      */
-    public void traverse();
+    public Iterator<ParseTree> traverse(TraversalStrategy traversalStrategy);
 
     /**
      * リーフノードか否か
