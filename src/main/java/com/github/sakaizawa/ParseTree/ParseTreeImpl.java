@@ -1,6 +1,7 @@
 package com.github.sakaizawa.ParseTree;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -9,21 +10,31 @@ import java.util.List;
 public class ParseTreeImpl
     implements ParseTree {
 
+
     private String label;
     private ParseTree parent;
     private List<ParseTree> children;
 
+    /**
+     *
+     * @param label
+     */
     public ParseTreeImpl (String label) {
         this.label = label;
         parent = null;
         children = new ArrayList<ParseTree>();
     }
 
-    /**
-     * Tree の走査
-     */
-    public void traverse() {
 
+    public Iterator<ParseTree> traverse(TraversalStrategy traversalStrategy){
+        Iterator<ParseTree> iterator = null;
+        if (traversalStrategy == TraversalStrategy.DEPTH) {
+            iterator = new DepthFirstTreeIterator(this);
+        } else if (traversalStrategy == TraversalStrategy.BREADTH) {
+            iterator = new BreadthFirstTreeIterator(this);
+        }
+
+        return iterator;
     }
 
     /**
@@ -36,7 +47,7 @@ public class ParseTreeImpl
     }
 
     /**
-     * node の総数を返す
+     * 現在の node 以下の  node の総数を返す
      *
      * @return node の総数
      */
