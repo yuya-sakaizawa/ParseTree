@@ -33,7 +33,6 @@ public class ParseTreeImpl
         } else if (traversalStrategy == TraversalStrategy.BREADTH) {
             iterator = new BreadthFirstTreeIterator(this);
         }
-
         return iterator;
     }
 
@@ -47,12 +46,27 @@ public class ParseTreeImpl
     }
 
     /**
+     * ROOT node か否か
+     *
+     * @return ROOT node → True, otherwise → False
+     */
+    public boolean isROOT() {
+        return this.parent == null;
+    }
+
+    /**
      * 現在の node 以下の  node の総数を返す
      *
      * @return node の総数
      */
     public int totalNode() {
-        return 0;
+        int totalNumber = 0;
+        Iterator<ParseTree> parseTreeIterator = this.traverse(TraversalStrategy.BREADTH);
+        while (parseTreeIterator.hasNext()) {
+            totalNumber++;
+            parseTreeIterator.next();
+        }
+        return totalNumber;
     }
 
     /**
@@ -61,7 +75,23 @@ public class ParseTreeImpl
      * @return 木の高さ
      */
     public int getHeight() {
-        return 0;
+        int height = 1;
+        ParseTree parseTree = this;
+        while (!parseTree.isLeaf()) {
+            height++;
+            parseTree = parseTree.getChild(0);
+        }
+        return height;
+    }
+
+    /**
+     * 現在の node に子ノードを加える
+     *
+     * @param parseTree 加える子ノード
+     */
+    public void addNode(ParseTree parseTree) {
+        this.setChild(parseTree);
+        parseTree.setParent(this);
     }
 
     /**
@@ -119,4 +149,11 @@ public class ParseTreeImpl
         children.add(child);
     }
 
+    /**
+     * ラベルセットする
+     * @param label ラベル
+     */
+    public void setLabel(String label) {
+        this.label = label;
+    }
 }

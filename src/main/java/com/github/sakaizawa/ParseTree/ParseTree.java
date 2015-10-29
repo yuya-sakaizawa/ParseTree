@@ -22,6 +22,13 @@ public interface ParseTree {
      */
     public boolean isLeaf();
 
+    // test なし
+    /**
+     * ROOT node か否か
+     * @return ROOT node → True, otherwise → False
+     */
+    public boolean isROOT();
+
     /**
      * node の総数を返す
      * @return node の総数
@@ -33,6 +40,13 @@ public interface ParseTree {
      * @return 木の高さ
      */
     public int getHeight();
+
+    // test　なし
+    /**
+     * 現在の node に子ノードを加える
+     * @param parseTree 加える子ノード
+     */
+    public void addNode(ParseTree parseTree);
 
     /**
      * i 番目の子ノードを返す
@@ -70,5 +84,11 @@ public interface ParseTree {
      * @param child 子ノード
      */
     public void setChild(ParseTree child);
+
+    /**
+     * ラベルをセットする
+     * @param label ラベル
+     */
+    public void setLabel(String label);
 
 }

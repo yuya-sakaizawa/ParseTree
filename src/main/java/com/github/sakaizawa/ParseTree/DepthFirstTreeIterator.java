@@ -10,13 +10,29 @@ import java.util.List;
 public class DepthFirstTreeIterator
     implements Iterator<ParseTree> {
 
+    private List<ParseTree> parseTreeList;
+
+    public DepthFirstTreeIterator (ParseTree parseTree) {
+        parseTreeList = new ArrayList<ParseTree>();
+        buildList(parseTree);
+    }
+
+    private void buildList (ParseTree parseTree) {
+        parseTreeList.add(parseTree);
+        ArrayList<ParseTree> children = (ArrayList<ParseTree>) parseTree.getChildren();
+        for (ParseTree child : children) {
+            buildList(child);
+        }
+    }
 
     public boolean hasNext() {
-        return false;
+        return !parseTreeList.isEmpty();
     }
 
     public ParseTree next() {
-        return null;
+        ParseTree parseTree = parseTreeList.get(0);
+        parseTreeList.remove(0);
+        return parseTree;
     }
 
     public void remove() {

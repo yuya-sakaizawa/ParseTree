@@ -14,111 +14,112 @@ public class ParseTreeImplTest {
 
     @Test
     public void testTraverse() throws Exception {
-        // 深さ優先の場合のテスト
-        TraversalStrategy traversalStrategy = TraversalStrategy.DEPTH;
+        TraversalStrategy traversalStrategyDepth = TraversalStrategy.DEPTH;
+        TraversalStrategy traversalStrategyBreadth = TraversalStrategy.BREADTH;
         ParseTree parseTree = new ParseTreeImpl("ROOT");
-        Iterator<ParseTree> parseTreeIterator = parseTree.traverse(traversalStrategy);
-        assertEquals("ROOT", parseTreeIterator.next().getLabel());
+        Iterator<ParseTree> DepthIterator = parseTree.traverse(traversalStrategyDepth);
+        Iterator<ParseTree> BreadthIterator = parseTree.traverse(traversalStrategyBreadth);
+        assertEquals("ROOT", DepthIterator.next().getLabel());
+        assertEquals("ROOT", BreadthIterator.next().getLabel());
 
-        parseTree.setChild(new ParseTreeImpl("POS1-1"));
-        parseTreeIterator = parseTree.traverse(traversalStrategy);
-        assertEquals("ROOT", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-1", parseTreeIterator.next().getLabel());
+        parseTree.addNode(new ParseTreeImpl("POS1-1"));
+        DepthIterator = parseTree.traverse(traversalStrategyDepth);
+        BreadthIterator = parseTree.traverse(traversalStrategyBreadth);
+        assertEquals("ROOT", DepthIterator.next().getLabel());
+        assertEquals("POS1-1", DepthIterator.next().getLabel());
+        assertEquals("ROOT", BreadthIterator.next().getLabel());
+        assertEquals("POS1-1", BreadthIterator.next().getLabel());
 
-        parseTree.setChild(new ParseTreeImpl("POS1-2"));
-        parseTreeIterator = parseTree.traverse(traversalStrategy);
-        assertEquals("ROOT", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-1", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-2", parseTreeIterator.next().getLabel());
+        parseTree.addNode(new ParseTreeImpl("POS1-2"));
+        DepthIterator = parseTree.traverse(traversalStrategyDepth);
+        BreadthIterator = parseTree.traverse(traversalStrategyBreadth);
+        assertEquals("ROOT", DepthIterator.next().getLabel());
+        assertEquals("POS1-1", DepthIterator.next().getLabel());
+        assertEquals("POS1-2", DepthIterator.next().getLabel());
+        assertEquals("ROOT", BreadthIterator.next().getLabel());
+        assertEquals("POS1-1", BreadthIterator.next().getLabel());
+        assertEquals("POS1-2", BreadthIterator.next().getLabel());
 
-        parseTree.setChild(new ParseTreeImpl("POS1-3"));
-        parseTreeIterator = parseTree.traverse(traversalStrategy);
-        assertEquals("ROOT", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-1", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-2", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-3", parseTreeIterator.next().getLabel());
+        parseTree.getChild(0).addNode(new ParseTreeImpl("POS2-1"));
+        DepthIterator = parseTree.traverse(traversalStrategyDepth);
+        BreadthIterator = parseTree.traverse(traversalStrategyBreadth);
+        assertEquals("ROOT", DepthIterator.next().getLabel());
+        assertEquals("POS1-1", DepthIterator.next().getLabel());
+        assertEquals("POS2-1", DepthIterator.next().getLabel());
+        assertEquals("POS1-2", DepthIterator.next().getLabel());
+        assertEquals("ROOT", BreadthIterator.next().getLabel());
+        assertEquals("POS1-1", BreadthIterator.next().getLabel());
+        assertEquals("POS1-2", BreadthIterator.next().getLabel());
+        assertEquals("POS2-1", BreadthIterator.next().getLabel());
 
-        parseTree.getChild(0).setChild(new ParseTreeImpl("POS2-1"));
-        parseTreeIterator = parseTree.traverse(traversalStrategy);
-        assertEquals("ROOT", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-1", parseTreeIterator.next().getLabel());
-        assertEquals("POS2-1", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-2", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-3", parseTreeIterator.next().getLabel());
+        parseTree.getChild(0).addNode(new ParseTreeImpl("POS2-2"));
+        DepthIterator = parseTree.traverse(traversalStrategyDepth);
+        BreadthIterator = parseTree.traverse(traversalStrategyBreadth);
+        assertEquals("ROOT", DepthIterator.next().getLabel());
+        assertEquals("POS1-1", DepthIterator.next().getLabel());
+        assertEquals("POS2-1", DepthIterator.next().getLabel());
+        assertEquals("POS2-2", DepthIterator.next().getLabel());
+        assertEquals("POS1-2", DepthIterator.next().getLabel());
+        assertEquals("ROOT", BreadthIterator.next().getLabel());
+        assertEquals("POS1-1", BreadthIterator.next().getLabel());
+        assertEquals("POS1-2", BreadthIterator.next().getLabel());
+        assertEquals("POS2-1", BreadthIterator.next().getLabel());
+        assertEquals("POS2-2", BreadthIterator.next().getLabel());
 
-        parseTree.getChild(0).setChild(new ParseTreeImpl("POS2-2"));
-        parseTreeIterator = parseTree.traverse(traversalStrategy);
-        assertEquals("ROOT", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-1", parseTreeIterator.next().getLabel());
-        assertEquals("POS2-1", parseTreeIterator.next().getLabel());
-        assertEquals("POS2-2", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-2", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-3", parseTreeIterator.next().getLabel());
+        DepthIterator = parseTree.getChild(0).traverse(traversalStrategyDepth);
+        BreadthIterator = parseTree.getChild(0).traverse(traversalStrategyBreadth);
+        assertEquals("POS1-1", DepthIterator.next().getLabel());
+        assertEquals("POS2-1", DepthIterator.next().getLabel());
+        assertEquals("POS2-2", DepthIterator.next().getLabel());
+        assertEquals("POS1-1", BreadthIterator.next().getLabel());
+        assertEquals("POS2-1", BreadthIterator.next().getLabel());
+        assertEquals("POS2-2", BreadthIterator.next().getLabel());
+    }
 
-        parseTreeIterator = parseTree.getChild(0).traverse(traversalStrategy);
-        assertEquals("POS1-1", parseTreeIterator.next().getLabel());
-        assertEquals("POS2-1", parseTreeIterator.next().getLabel());
-        assertEquals("POS2-2", parseTreeIterator.next().getLabel());
+    @Test
+    public void testAddNode() throws Exception {
+        ParseTree parseTree = new ParseTreeImpl("ROOT");
+        parseTree.addNode(new ParseTreeImpl("POS1-1"));
+        assertEquals("POS1-1", parseTree.getChild(0).getLabel());
+        assertEquals("ROOT", parseTree.getChild(0).getParent().getLabel());
 
-        // 幅優先探索の場合のテスト
-        traversalStrategy = TraversalStrategy.BREADTH;
-        parseTree = new ParseTreeImpl("ROOT");
-        parseTreeIterator = parseTree.traverse(traversalStrategy);
-        assertEquals("ROOT", parseTreeIterator.next().getLabel());
+        parseTree.addNode(new ParseTreeImpl("POS1-2"));
+        assertEquals("POS1-1", parseTree.getChild(0).getLabel());
+        assertEquals("POS1-2", parseTree.getChild(1).getLabel());
+        assertEquals("ROOT", parseTree.getChild(0).getParent().getLabel());
+        assertEquals("ROOT", parseTree.getChild(1).getParent().getLabel());
 
-        parseTree.setChild(new ParseTreeImpl("POS1-1"));
-        parseTreeIterator = parseTree.traverse(traversalStrategy);
-        assertEquals("ROOT", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-1", parseTreeIterator.next().getLabel());
+        parseTree.getChild(0).addNode(new ParseTreeImpl("POS2-1"));
+        assertEquals("POS1-1", parseTree.getChild(0).getLabel());
+        assertEquals("POS1-2", parseTree.getChild(1).getLabel());
+        assertEquals("POS2-1", parseTree.getChild(0).getChild(0).getLabel());
+        assertEquals("ROOT", parseTree.getChild(0).getParent().getLabel());
+        assertEquals("ROOT", parseTree.getChild(1).getParent().getLabel());
+        assertEquals("POS1-1", parseTree.getChild(0).getChild(0).getParent().getLabel());
 
-        parseTree.setChild(new ParseTreeImpl("POS1-2"));
-        parseTreeIterator = parseTree.traverse(traversalStrategy);
-        assertEquals("ROOT", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-1", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-2", parseTreeIterator.next().getLabel());
-
-        parseTree.setChild(new ParseTreeImpl("POS1-3"));
-        parseTreeIterator = parseTree.traverse(traversalStrategy);
-        assertEquals("ROOT", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-1", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-2", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-3", parseTreeIterator.next().getLabel());
-
-        parseTree.getChild(0).setChild(new ParseTreeImpl("POS2-1"));
-        parseTreeIterator = parseTree.traverse(traversalStrategy);
-        assertEquals("ROOT", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-1", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-2", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-3", parseTreeIterator.next().getLabel());
-        assertEquals("POS2-1", parseTreeIterator.next().getLabel());
-
-        parseTree.getChild(0).setChild(new ParseTreeImpl("POS2-2"));
-        parseTreeIterator = parseTree.traverse(traversalStrategy);
-        assertEquals("ROOT", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-1", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-2", parseTreeIterator.next().getLabel());
-        assertEquals("POS1-3", parseTreeIterator.next().getLabel());
-        assertEquals("POS2-1", parseTreeIterator.next().getLabel());
-        assertEquals("POS2-2", parseTreeIterator.next().getLabel());
-
-        parseTreeIterator = parseTree.getChild(0).traverse(traversalStrategy);
-        assertEquals("POS1-1", parseTreeIterator.next().getLabel());
-        assertEquals("POS2-1", parseTreeIterator.next().getLabel());
-        assertEquals("POS2-2", parseTreeIterator.next().getLabel());
+        parseTree.getChild(1).addNode(new ParseTreeImpl("POS2-2"));
+        assertEquals("POS1-1", parseTree.getChild(0).getLabel());
+        assertEquals("POS1-2", parseTree.getChild(1).getLabel());
+        assertEquals("POS2-1", parseTree.getChild(0).getChild(0).getLabel());
+        assertEquals("POS2-2", parseTree.getChild(1).getChild(0).getLabel());
+        assertEquals("ROOT", parseTree.getChild(0).getParent().getLabel());
+        assertEquals("ROOT", parseTree.getChild(1).getParent().getLabel());
+        assertEquals("POS1-1", parseTree.getChild(0).getChild(0).getParent().getLabel());
+        assertEquals("POS1-2", parseTree.getChild(1).getChild(0).getParent().getLabel());
     }
 
     @Test
     public void testIsLeaf() throws Exception {
         ParseTree parseTree = new ParseTreeImpl("ROOT");
         assertTrue(parseTree.isLeaf());
-        parseTree.setChild(new ParseTreeImpl("POS1-1"));
-        parseTree.setChild(new ParseTreeImpl("POS1-2"));
+        parseTree.addNode(new ParseTreeImpl("POS1-1"));
+        parseTree.addNode(new ParseTreeImpl("POS1-2"));
         assertFalse(parseTree.isLeaf());
         assertTrue(parseTree.getChild(0).isLeaf());
         assertTrue(parseTree.getChild(1).isLeaf());
 
-        parseTree.getChild(0).setChild(new ParseTreeImpl("POS2-1"));
-        parseTree.getChild(0).setChild(new ParseTreeImpl("POS2-1"));
+        parseTree.getChild(0).addNode(new ParseTreeImpl("POS2-1"));
+        parseTree.getChild(0).addNode(new ParseTreeImpl("POS2-1"));
         assertFalse(parseTree.isLeaf());
         assertFalse(parseTree.getChild(0).isLeaf());
         assertTrue(parseTree.getChild(1).isLeaf());
@@ -131,22 +132,22 @@ public class ParseTreeImplTest {
         ParseTree parseTree = new ParseTreeImpl("ROOT");
         assertEquals(1, parseTree.totalNode());
 
-        parseTree.setChild(new ParseTreeImpl("POS1-1"));
+        parseTree.addNode(new ParseTreeImpl("POS1-1"));
         assertEquals(2, parseTree.totalNode());
         assertEquals(1, parseTree.getChild(0).totalNode());
 
-        parseTree.setChild(new ParseTreeImpl("POS1-2"));
+        parseTree.addNode(new ParseTreeImpl("POS1-2"));
         assertEquals(3, parseTree.totalNode());
         assertEquals(1, parseTree.getChild(0).totalNode());
         assertEquals(1, parseTree.getChild(0).totalNode());
 
-        parseTree.getChild(0).setChild(new ParseTreeImpl("POS2-1"));
+        parseTree.getChild(0).addNode(new ParseTreeImpl("POS2-1"));
         assertEquals(4, parseTree.totalNode());
         assertEquals(2, parseTree.getChild(0).totalNode());
         assertEquals(1, parseTree.getChild(1).totalNode());
         assertEquals(1, parseTree.getChild(0).getChild(0).totalNode());
 
-        parseTree.getChild(0).setChild(new ParseTreeImpl("POS2-2"));
+        parseTree.getChild(0).addNode(new ParseTreeImpl("POS2-2"));
         assertEquals(5, parseTree.totalNode());
         assertEquals(3, parseTree.getChild(0).totalNode());
         assertEquals(1, parseTree.getChild(1).totalNode());
@@ -159,19 +160,36 @@ public class ParseTreeImplTest {
         ParseTree parseTree = new ParseTreeImpl("ROOT");
         assertEquals(1, parseTree.getHeight());
 
-        parseTree.setChild(new ParseTreeImpl("POS1-1"));
+        parseTree.addNode(new ParseTreeImpl("POS1-1"));
         assertEquals(2, parseTree.getHeight());
         assertEquals(1, parseTree.getChild(0).getHeight());
 
-        parseTree.setChild(new ParseTreeImpl("POS1-2"));
+        parseTree.addNode(new ParseTreeImpl("POS1-2"));
         assertEquals(2, parseTree.getHeight());
         assertEquals(1, parseTree.getChild(0).getHeight());
         assertEquals(1, parseTree.getChild(1).getHeight());
 
-        parseTree.getChild(0).setChild(new ParseTreeImpl("POS2-1"));
+        parseTree.getChild(0).addNode(new ParseTreeImpl("POS2-1"));
         assertEquals(3, parseTree.getHeight());
         assertEquals(2, parseTree.getChild(0).getHeight());
         assertEquals(1, parseTree.getChild(1).getHeight());
         assertEquals(1, parseTree.getChild(0).getChild(0).getHeight());
+    }
+
+    @Test
+    public void testIsROOT() throws Exception {
+        ParseTree parseTree = new ParseTreeImpl("ROOT");
+        assertTrue(parseTree.isROOT());
+
+        parseTree.addNode(new ParseTreeImpl("POS1-1"));
+        assertTrue(parseTree.isROOT());
+        assertFalse(parseTree.getChild(0).isROOT());
+
+        parseTree.addNode(new ParseTreeImpl("POS1-2"));
+        parseTree.getChild(0).addNode(new ParseTreeImpl("POS2-1"));
+        assertTrue(parseTree.isROOT());
+        assertFalse(parseTree.getChild(0).isROOT());
+        assertFalse(parseTree.getChild(1).isROOT());
+        assertFalse(parseTree.getChild(0).getChild(0).isROOT());
     }
 }
