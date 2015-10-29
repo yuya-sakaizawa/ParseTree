@@ -5,7 +5,8 @@ import java.util.Stack;
 /**
  * Created by sakaisawayuya on 2015/10/28.
  */
-public class StackConverterImpl {
+public class StackConverterImpl
+    implements StackConverter{
 
     public StackConverterImpl () {
     }

@@ -28,10 +28,4 @@ public interface ParseTreeOperator {
      * @return 句
      */
     public String searchPhrase(String word);
-
-    /**
-     * リーフノードの集合を返す
-     * @return リーフノードの集合
-     */
-    public List<Node> getLeafs();
 }

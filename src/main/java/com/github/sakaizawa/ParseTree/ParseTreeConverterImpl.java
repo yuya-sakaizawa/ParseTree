@@ -5,7 +5,8 @@ import java.util.Stack;
 /**
  * Created by sakaisawayuya on 2015/10/28.
  */
-public class ParseTreeConverterImpl {
+public class ParseTreeConverterImpl
+    implements ParseTreeConverter{
 
     public ParseTreeConverterImpl () {
     }
@@ -48,7 +49,7 @@ public class ParseTreeConverterImpl {
                 parseTree = parseTree.getParent();
                 continue;
             } else if (flag == 1) {
-                parseTree.getChild(parseTree.getChildren().size()-1).setLabel(label);
+                parseTree.getChild(parseTree.getChildren().size() - 1).setLabel(label);
                 parseTree = parseTree.getChild(parseTree.getChildren().size()-1);
                 flag = 0;
                 continue;
